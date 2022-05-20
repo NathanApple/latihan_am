@@ -18,7 +18,13 @@
                 role="alert">
                   {{ error }}
                 </div>
-              <input type="submit" class="btn btn-primary" value="Submit">
+                <div class="d-flex flex-row-reverse">
+                  <input type="submit" class="btn btn-primary" value="Login">
+                  <button class="btn btn-secondary mx-2" @click="goToRegister" >
+                    Register
+                  </button>
+                </div>
+              
             </form>
         </div>
     </div>
@@ -48,7 +54,11 @@
     },
 
     methods: {
-      
+      goToRegister(e){
+        e.preventDefault();
+        this.$router.push('/register');
+      },
+
       onFileChange(){
         console.log("File changed");
       },
@@ -65,37 +75,27 @@
             password: this.user.password
           }
         }).then(() => {
-          this.$toast.success('Logged In!');
+            this.$toasted.show("Logged In!", { 
+              theme: "toasted-primary", 
+              type: "success",
+              position: "bottom-right", 
+              duration : 3000
+            });
           this.$router.push('/');
-          });
+          })
+          .catch(error => {
+            console.log(error.response);
+            this.$toasted.show("Error: "+error.response.data.error, { 
+              theme: "toasted-primary", 
+              type: "error",
+              position: "bottom-right", 
+              duration : 3000
+            });
+          })
+          ;
         
 
         return;
-        // console.log(apiUrl);
-        //send data ke Rest API
-        await this.$axios.post(apiUrl, {
-            email:   this.user.email,
-            password:   this.user.password,
-          })
-          .then(response => {
-            // console.log(response.data);
-            // this.$auth.loggedIn = true;
-            this.$auth.setUserToken(response.data.token)
-              .then(() => this.$toast.success('User set!'))
-            this.$auth.$storage.setCookie("BEARER_TOKEN", response.data.token);
-            console.log(this.$auth.$storage.getCookie("BEARER_TOKEN"));
-            // redirect('/dashboard')
-            //redirect ke route "post"
-            // this.$router.push({
-            //   name: 'dashboard'
-            // })
-
-          })
-          .catch(error => {
-            //assign validation  
-            this.validation = error.response.data;
-            this.error = error.response.data.error;
-          })
       }
     }
 

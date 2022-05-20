@@ -224,7 +224,8 @@
     async fetch() {
       this.totalSteps = this.steps.length;
       this.imageServerUrl = process.env.IMAGE_URL;
-      console.log(this.imageServerUrl);
+      // console.log(this.imageServerUrl);
+      this.progressWidth = (((1 / (this.steps.length+1))*100)+5) + "%";
 
       var universitiesApiUrl = process.env.API_URL+'/university/view';
       this.fields.university.data = await fetch(
@@ -238,7 +239,6 @@
       ).then(res => res.json());
       this.fields.file.data = this.fields.file.data.file_categories;
 
-      this.progressWidth = (((1 / (this.steps.length+1))*100)+5) + "%";
     },
 
     methods: {

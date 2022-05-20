@@ -82,7 +82,11 @@ export default {
                         method: 'get',
                         propertyName: 'data'
                     },
-                    logout: false
+                    logout: {
+                        url: "/auth/logout",
+                        method: 'delete',
+                        propertyName: 'logout'
+                    },
 
                 },
                 token: {

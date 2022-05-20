@@ -52,6 +52,7 @@ Route::prefix('auth')->group(function () {
 
         Route::middleware('jwt.verify')->group(function () {
             Route::get('/me', 'getAuthenticatedUser');
+            Route::delete('/logout', 'logout');
         });
         
     });
